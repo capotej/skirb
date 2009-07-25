@@ -11,9 +11,6 @@ end
 
 ROWS, COLS = terminal_size
 
-puts ROWS
-puts COLS - 3
-
 def draw_frame(&frame)
   cols = COLS - 3
   cnt = 0
