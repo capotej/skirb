@@ -38,7 +38,7 @@ def dot(x)
     cnt = @frame
   end
   if cnt == x
-    return x
+    return '||'
   else
     return ' '
   end
