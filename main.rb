@@ -9,25 +9,47 @@ def terminal_size
   return rows, cols
 end
 
-ROWS, COLS = terminal_size
+def pad(n, str = ' ')
+  (0...n).map { str }.to_s
+end
+
+
+rows, rcols = terminal_size
+ROWS = rows + 1
+COLS = rcols - 3
 
 def draw_frame(&frame)
-  cols = COLS - 3
   cnt = 0
   ROWS.times do
-    res = frame.call(cnt)
-    size = cols - res.size 
-    cnt =+ 1
-    puts '|' << res.slice(0...cols) << (0...size).map { ' ' }.to_s << '|'
+    res = frame.call(cnt).to_s
+    size = COLS - res.size 
+    cnt = cnt + 1
+    puts '|' << res.slice(0...COLS) << pad(size) << '|'
   end
+
 end
 
 FPS = 20
 
+def dot(x)
+  if @frame > ROWS
+    @frame = 0
+  else
+    cnt = @frame
+  end
+  if cnt == x
+    return x
+  else
+    return ' '
+  end
+end
+
+
+@frame = 0
 loop do 
-  draw_frame { |x| 'x' }
-  sleep FPS / 60 / 2
-  draw_frame { |x| ' ' }
+  draw_frame { |x| dot(x).to_s.center(COLS) }
+  sleep 0.095
+  @frame = @frame + 1
 end
 
 
